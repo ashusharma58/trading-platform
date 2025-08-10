@@ -45,6 +45,9 @@ cd frontend
 npm install
 npm run dev
 # UI: http://localhost:5173
+login cred -
+username - admin
+Password - password
 ```
 
 ## Tests
