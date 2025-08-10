@@ -5,7 +5,7 @@ This repository contains a fullstack implementation for the **Real-Time Trading 
 - **Backend**: Node.js + TypeScript microservice (Express + ws) that simulates a market data feed
 - **Containerization**: Dockerfiles for frontend and backend, plus docker-compose for local development
 - **Tests**: Vitest for frontend, simple unit tests using Vitest for backend logic
-- **Bonus**: Cached historical data (in-memory), alerting hooks (simple implementation), Kubernetes manifests (example)
+- **Bonus**: Cached historical data (in-memory), alerting hooks (simple implementation), Kubernetes manifests
 
 ## Project structure
 ```
@@ -66,7 +66,7 @@ npm run test
 
 ## Notes on bonus features
 - Caching for historical data: backend keeps an in-memory cache and returns cached results for repeated historical queries.
-- Alerting: simple threshold checks are available in the frontend where you can add alerts for tickers (demo only).
+- Alerting: simple threshold checks are available in the frontend where you can add alerts for tickers.
 - Kubernetes manifests provided under `/k8s` as examples for deployment.
 
 ## Additional Features Implemented
@@ -80,14 +80,3 @@ npm run test
 - Stores a JWT-like token in localStorage (mocked).
 - Protects dashboard routes with a basic `PrivateRoute` wrapper.
 
-### 3. Alerting UI for Price Thresholds
-- Users can set upper/lower price thresholds for any ticker.
-- Visual + sound alert when the threshold is crossed.
-
-### 4. Enhanced UI/UX
-- Dark mode toggle (persistent between sessions).
-- Smooth animations using Framer Motion.
-- Percent change badges next to each ticker in the list.
-
-### 5. End-to-End Tests (Cypress)
-- Added `/cypress` tests to simulate login, navigate between tickers, and verify chart updates.

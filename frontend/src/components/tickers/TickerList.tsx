@@ -1,10 +1,10 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState, AppDispatch } from '../../app/store'
-import { setSelected } from './tickerSlice'
+import { RootState, AppDispatch } from '../../store/store'
+import { setSelected } from '../../api/slices/tickerSlice'
 
-export default function TickerList(){
-  const { data, selected } = useSelector((s: RootState)=>s.tickers)
+const TickerList = () => {
+  const { data, selected } = useSelector((s: RootState)=>s?.tickers)
   const dispatch = useDispatch<AppDispatch>()
   const items = Object.values(data)
   return (
@@ -23,3 +23,4 @@ export default function TickerList(){
     </div>
   )
 }
+export default TickerList

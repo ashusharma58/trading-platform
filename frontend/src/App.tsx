@@ -1,30 +1,53 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from './app/store'
-import { initWs } from './services/wsClient'
-import { updateTicker } from './features/tickers/tickerSlice'
-import { addChartData } from './features/chart/chartSlice'
-import TickerList from './features/tickers/TickerList'
-import TickerChart from './features/chart/TickerChart'
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+import { Provider } from 'react-redux'
+import { store } from './store/store'
+import './styles.css'
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import HomePage from "./Pages/HomePage";
+import LoginPage from "./Pages/LoginPage";
+import { useAuth } from "./hooks/useAuth";
+import NavBar from './components/navbar/NavBar'
+import PageNotFound from './Pages/PageNotFound'
 
-export default function App(){
-  const dispatch = useDispatch<AppDispatch>()
 
-  useEffect(()=>{
-    const stop = initWs((update) => {
-      dispatch(updateTicker(update))
-      dispatch(addChartData({ symbol: update.symbol, point: { time: update.time, price: update.price } }))
-    })
-    return () => stop()
-  }, [dispatch])
+export const PrivateRoute =({ children }: { children: JSX.Element }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
+}
+
+const AppRoutes = () => {
+  const location = useLocation();
+  const showNavbar = location.pathname === "/";
 
   return (
-    <div className="app">
-      <header><h1>Realtime Ticker Dashboard (Fullstack)</h1></header>
-      <main className="container">
-        <aside className="sidebar"><TickerList/></aside>
-        <section className="content"><TickerChart/></section>
-      </main>
-    </div>
-  )
+    <>
+      {showNavbar && <NavBar />}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <HomePage />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </>
+  );
+}
+
+
+
+export default function App() {
+  return (
+    <Provider store={store}>
+          <Router>
+      <AppRoutes />
+    </Router>
+    </Provider>
+
+  );
 }
